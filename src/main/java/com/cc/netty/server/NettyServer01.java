@@ -21,6 +21,12 @@ public class NettyServer01 {
         serverBootstrap
                 .group(bossGroup,workerGroup)
                 .channel(NioServerSocketChannel.class)
+                .handler(new ChannelInitializer<NioServerSocketChannel>() {
+                    @Override
+                    protected void initChannel(NioServerSocketChannel nioServerSocketChannel) throws Exception {
+                        System.out.println("服务启动中");
+                    }
+                })
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
@@ -28,12 +34,12 @@ public class NettyServer01 {
                     }
                 });
 
-        bind(serverBootstrap,1000);
+        bind(serverBootstrap,8000);
 
     }
 
     private static void bind(final ServerBootstrap serverBootstrap,final int port) {
-        serverBootstrap.bind(8000).addListener(new GenericFutureListener<Future<? super Void>>() {
+        serverBootstrap.bind(port).addListener(new GenericFutureListener<Future<? super Void>>() {
             @Override
             public void operationComplete(Future<? super Void> future) throws Exception {
                 if (future.isSuccess()){
