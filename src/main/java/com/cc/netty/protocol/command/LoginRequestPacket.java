@@ -1,6 +1,7 @@
 package com.cc.netty.protocol.command;
 
 import lombok.Data;
+import static com.cc.netty.protocol.command.Command.LOGIN_REQUEST;
 
 /**
  * @Author: cc
@@ -16,6 +17,6 @@ public class LoginRequestPacket extends Packet{
 
     @Override
     public Byte getCommand() {
-        return Command.LOGIN_REQUEST;
+        return LOGIN_REQUEST;
     }
 }
