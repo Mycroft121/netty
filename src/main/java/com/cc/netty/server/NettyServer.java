@@ -1,6 +1,7 @@
 package com.cc.netty.server;
 
 import com.cc.netty.codec.Spliter;
+import com.cc.netty.handler.LifeCyCleTestHandler;
 import com.cc.netty.server.handler.LoginRequestHandler;
 import com.cc.netty.server.handler.MessageRequestHandler;
 import com.cc.netty.codec.PacketDecoder;
@@ -36,6 +37,7 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) {
+                        ch.pipeline().addLast(new LifeCyCleTestHandler());
                         ch.pipeline().addLast(new Spliter());
 //                        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE,7,4));
 //                        ch.pipeline().addLast(new FirstServerHandler());
