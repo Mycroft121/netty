@@ -1,4 +1,4 @@
-package com.cc.netty.protocol.command;
+package com.cc.netty.protocol.command.command;
 
 /**
  * @Author: cc

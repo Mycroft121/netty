@@ -1,5 +1,10 @@
 package com.cc.netty.protocol.command;
 
+import com.cc.netty.protocol.command.command.Command;
+import com.cc.netty.protocol.command.request.LoginRequestPacket;
+import com.cc.netty.protocol.command.request.MessageRequestPacket;
+import com.cc.netty.protocol.command.response.LoginResponsePacket;
+import com.cc.netty.protocol.command.response.MessageResponsePacket;
 import com.cc.netty.serializer.JSONSerializer;
 import com.cc.netty.serializer.Serializer;
 import io.netty.buffer.ByteBuf;
@@ -20,19 +25,18 @@ public class PacketCodeC {
 
     static {
         packetTypeMap = new HashMap<>();
-        packetTypeMap.put(Command.LOGIN_REQUEST,LoginRequestPacket.class);
-        packetTypeMap.put(Command.LOGIN_RESPONSE,LoginResponsePacket.class);
-        packetTypeMap.put(Command.MESSAGE_REQUEST,MessageRequestPacket.class);
-        packetTypeMap.put(Command.MESSAGE_RESPONSE,MessageResponsePacket.class);
+        packetTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
+        packetTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(Command.MESSAGE_REQUEST, MessageRequestPacket.class);
+        packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();
         serializerMap.put(serializer.getSerializerAlgorithm(),serializer);
     }
 
-    public ByteBuf encode(ByteBufAllocator byteBufAllocator,Packet packet){
+    public ByteBuf encode(ByteBuf byteBuf,Packet packet){
         // 1. 创建 ByteBuf 对象
-        ByteBuf byteBuf = byteBufAllocator.ioBuffer();
         // 2. 序列化 Java 对象
         byte[] bytes = Serializer.DEFAULT.serializer(packet);
 

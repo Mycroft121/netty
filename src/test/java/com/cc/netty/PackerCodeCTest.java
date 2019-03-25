@@ -1,14 +1,5 @@
 package com.cc.netty;
 
-import com.cc.netty.protocol.command.LoginRequestPacket;
-import com.cc.netty.protocol.command.Packet;
-import com.cc.netty.protocol.command.PacketCodeC;
-import com.cc.netty.serializer.JSONSerializer;
-import com.cc.netty.serializer.Serializer;
-import io.netty.buffer.ByteBuf;
-import org.junit.Assert;
-import org.junit.Test;
-
 /**
  * @Author: cc
  */

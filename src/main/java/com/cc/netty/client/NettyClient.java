@@ -1,9 +1,12 @@
 package com.cc.netty.client;
 
-import com.cc.netty.protocol.command.MessageRequestPacket;
+import com.cc.netty.client.handler.LoginResponseHandler;
+import com.cc.netty.client.handler.MessageResponseHandler;
+import com.cc.netty.protocol.command.request.MessageRequestPacket;
 import com.cc.netty.protocol.command.PacketCodeC;
-import com.cc.netty.util.ConnectUtil;
 import com.cc.netty.util.LoginUtil;
+import com.cc.netty.util.PacketDecoder;
+import com.cc.netty.util.PacketEncode;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -33,7 +36,10 @@ public class NettyClient {
                 .handler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ClientHandler());
+                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new LoginResponseHandler());
+                        ch.pipeline().addLast(new MessageResponseHandler());
+                        ch.pipeline().addLast(new PacketEncode());
                     }
                 });
         //重连
@@ -71,8 +77,7 @@ public class NettyClient {
 
                     MessageRequestPacket packet = new MessageRequestPacket();
                     packet.setMessage(line);
-                    ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), packet);
-                    channel.writeAndFlush(byteBuf);
+                    channel.writeAndFlush(packet);
                 }
             }
         }).start();
