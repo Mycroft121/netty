@@ -1,4 +1,4 @@
-package com.cc.netty.util;
+package com.cc.netty.codec;
 
 import com.cc.netty.protocol.command.Packet;
 import com.cc.netty.protocol.command.PacketCodeC;

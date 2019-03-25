@@ -2,18 +2,19 @@ package com.cc.netty.client;
 
 import com.cc.netty.client.handler.LoginResponseHandler;
 import com.cc.netty.client.handler.MessageResponseHandler;
+import com.cc.netty.codec.Spliter;
 import com.cc.netty.protocol.command.request.MessageRequestPacket;
-import com.cc.netty.protocol.command.PacketCodeC;
 import com.cc.netty.util.LoginUtil;
-import com.cc.netty.util.PacketDecoder;
-import com.cc.netty.util.PacketEncode;
+import com.cc.netty.codec.PacketDecoder;
+import com.cc.netty.codec.PacketEncode;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -33,9 +34,15 @@ public class NettyClient {
         bootstrap
                 .group(workerGroup)
                 .channel(NioSocketChannel.class)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
+                .option(ChannelOption.SO_KEEPALIVE, true)
+                .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(new Spliter());
+//                        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE,7,4));
+//                        ch.pipeline().addLast(new FirstClientHandler());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandler());
                         ch.pipeline().addLast(new MessageResponseHandler());
@@ -43,7 +50,7 @@ public class NettyClient {
                     }
                 });
         //重连
-        connect(bootstrap, "127.0.0.1", 8001, MAX_RETRY);
+        connect(bootstrap, "127.0.0.1", 8000, MAX_RETRY);
 
     }
 
