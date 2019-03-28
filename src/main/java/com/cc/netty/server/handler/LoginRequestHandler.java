@@ -9,6 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @Author: cc
@@ -19,6 +20,8 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         System.out.println(new Date() + ": 收到客户端登录请求……");
 
         LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
+        String userId = randomUserId();
+        loginRequestPacket.setUserId(userId);
         loginResponsePacket.setVersion(loginRequestPacket.getVersion());
         if (valid(loginRequestPacket)) {
             loginResponsePacket.setSuccess(true);
@@ -36,5 +39,9 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {
         return true;
+    }
+
+    private static String randomUserId() {
+        return UUID.randomUUID().toString().split("-")[0];
     }
 }

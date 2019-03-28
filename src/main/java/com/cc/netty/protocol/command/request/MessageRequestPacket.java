@@ -10,6 +10,8 @@ import static com.cc.netty.protocol.command.command.Command.MESSAGE_REQUEST;
 @Data
 public class MessageRequestPacket extends Packet {
 
+    private String userId;
+
     private String message;
 
 
