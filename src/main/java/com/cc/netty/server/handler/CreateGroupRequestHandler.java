@@ -2,6 +2,7 @@ package com.cc.netty.server.handler;
 
 import com.cc.netty.protocol.command.request.CreateGroupRequestPacket;
 import com.cc.netty.protocol.command.response.CreateGroupResponsePacket;
+import com.cc.netty.session.Session;
 import com.cc.netty.util.IDUtil;
 import com.cc.netty.util.SessionUtil;
 import io.netty.channel.Channel;
@@ -48,5 +49,7 @@ public class CreateGroupRequestHandler extends SimpleChannelInboundHandler<Creat
         System.out.print("群创建成功，id 为[" + createGroupResponsePacket.getGroupId() + "], ");
         System.out.println("群里面有：" + createGroupResponsePacket.getUserNameList());
 
+        // 5.保存群组信息
+        SessionUtil.bindChannelGroup(createGroupResponsePacket.getGroupId(),channelGroup);
     }
 }

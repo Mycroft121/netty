@@ -2,13 +2,9 @@ package com.cc.netty.client;
 
 import com.cc.netty.client.console.ConsoleCommandManager;
 import com.cc.netty.client.console.LoginConsoleCommand;
-import com.cc.netty.client.handler.CreateGroupResponseHandler;
-import com.cc.netty.client.handler.LoginResponseHandler;
-import com.cc.netty.client.handler.MessageResponseHandler;
+import com.cc.netty.client.handler.*;
 import com.cc.netty.codec.Spliter;
 import com.cc.netty.protocol.command.request.LoginRequestPacket;
-import com.cc.netty.protocol.command.request.MessageRequestPacket;
-import com.cc.netty.util.LoginUtil;
 import com.cc.netty.codec.PacketDecoder;
 import com.cc.netty.codec.PacketEncode;
 import com.cc.netty.util.SessionUtil;
@@ -19,7 +15,6 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -49,6 +44,9 @@ public class NettyClient {
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandler());
                         ch.pipeline().addLast(new CreateGroupResponseHandler());
+                        ch.pipeline().addLast(new JoinGroupResponseHandler());
+                        ch.pipeline().addLast(new QuitGroupResponseHandler());
+                        ch.pipeline().addLast(new ListGroupMembersResponseHandler());
                         ch.pipeline().addLast(new MessageResponseHandler());
                         ch.pipeline().addLast(new PacketEncode());
                     }

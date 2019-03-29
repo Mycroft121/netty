@@ -1,7 +1,6 @@
 package com.cc.netty.server;
 
 import com.cc.netty.codec.Spliter;
-import com.cc.netty.handler.LifeCyCleTestHandler;
 import com.cc.netty.server.handler.*;
 import com.cc.netty.codec.PacketDecoder;
 import com.cc.netty.codec.PacketEncode;
@@ -11,7 +10,6 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 import java.util.Date;
 
@@ -41,6 +39,8 @@ public class NettyServer {
                         ch.pipeline().addLast(new LoginRequestHandler());
                         ch.pipeline().addLast(new CreateGroupRequestHandler());
                         ch.pipeline().addLast(new JoinGroupRequestHandler());
+                        ch.pipeline().addLast(new QuitGroupRequestHandler());
+                        ch.pipeline().addLast(new ListGroupMembersRequestHandler());
                         ch.pipeline().addLast(new AuthHandler());
                         ch.pipeline().addLast(new MessageRequestHandler());
                         ch.pipeline().addLast(new PacketEncode());
