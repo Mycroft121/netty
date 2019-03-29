@@ -1,19 +1,10 @@
 package com.cc.netty.client.handler;
 
-import com.cc.netty.protocol.command.Packet;
-import com.cc.netty.protocol.command.PacketCodeC;
-import com.cc.netty.protocol.command.request.LoginRequestPacket;
 import com.cc.netty.protocol.command.response.LoginResponsePacket;
-import com.cc.netty.protocol.command.response.MessageResponsePacket;
 import com.cc.netty.session.Session;
-import com.cc.netty.util.LoginUtil;
 import com.cc.netty.util.SessionUtil;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
-import java.util.Date;
-import java.util.UUID;
 
 /**
  * @Author: cc

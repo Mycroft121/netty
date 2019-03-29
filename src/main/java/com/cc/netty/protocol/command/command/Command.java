@@ -33,4 +33,8 @@ public interface Command {
 
     Byte LIST_GROUP_MEMBERS_RESPONSE = 14;
 
+    Byte GROUP_MESSAGE_REQUEST = 15;
+
+    Byte GROUP_MESSAGE_RESPONSE = 16;
+
 }
