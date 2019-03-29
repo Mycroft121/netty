@@ -29,7 +29,14 @@ public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRe
         messageResponsePacket.setMessage(messageRequestPacket.getMessage());
 
         // 3.拿到消息接收方的 channel
-        Channel toUserChannel = SessionUtil.getChannel(session.getUserId());
+        Channel toUserChannel = SessionUtil.getChannel(messageRequestPacket.getToUserId());
+
+        // 4.将消息发送给消息接收方
+        if (toUserChannel != null && SessionUtil.hasLogin(toUserChannel)) {
+            toUserChannel.writeAndFlush(messageRequestPacket);
+        } else {
+            System.err.println("[" + messageRequestPacket.getToUserId() + "] 不在线，发送失败!");
+        }
 
         ctx.channel().writeAndFlush(messageResponsePacket);
     }
